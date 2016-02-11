@@ -46,7 +46,7 @@ class LoginActivity: AppCompatActivity() {
         login_button.isEnabled = false
 
         val dialog: ProgressDialog = ProgressDialog(this,
-                R.style.Base_Theme_AppCompat_Dialog)
+                R.style.AppTheme_Dark_Dialog)
 
         dialog.isIndeterminate = true
         dialog.setMessage("Logging in...")
