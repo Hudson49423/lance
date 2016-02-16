@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.octopusbeach.lance">
+    package="com.octopusbeach.lance" >
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -10,11 +10,11 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,7 +25,7 @@
             android:name=".activities.LoginActivity"
             android:label="@string/title_activity_login"
             android:parentActivityName=".activities.MainActivity"
-            android:theme="@style/AppTheme.Dark">
+            android:theme="@style/AppTheme.Dark" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.octopusbeach.lance.activities.MainActivity" />
@@ -34,7 +34,7 @@
             android:name=".activities.CreateAccountActivity"
             android:label="@string/title_activity_create_account"
             android:parentActivityName=".activities.LoginActivity"
-            android:theme="@style/AppTheme.Dark">
+            android:theme="@style/AppTheme.Dark" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.octopusbeach.lance.activities.LoginActivity" />
@@ -43,7 +43,7 @@
             android:name=".activities.CreateProjectActivity"
             android:label="@string/title_activity_create_project"
             android:parentActivityName=".activities.MainActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.octopusbeach.lance.activities.MainActivity" />

@@ -22,7 +22,7 @@ class CreateProjectActivity :AppCompatActivity(), DatePickerDialog.OnDateSetList
 
     val START_TAG = "start"
     val END_TAG = "end"
-    val PROJECT_CHILD = "project"
+    val PROJECT_CHILD = "projects"
     lateinit var startBtn: Button
     lateinit var endBtn: Button
     lateinit var createBtn: Button
@@ -136,12 +136,17 @@ class CreateProjectActivity :AppCompatActivity(), DatePickerDialog.OnDateSetList
 
     private fun validate():Boolean {
         var valid = true
-        val text = title.getString()
-        if (text.isEmpty()) {
+        val titleText = title.getString()
+        if (titleText.isEmpty()) {
             valid = false
-            title.error = "enter a title"
+            title.error = "Please enter a title"
         } else
             title.error = null
+        val descriptionText = description.getString()
+        if (descriptionText.isEmpty()) {
+            valid = false
+            description.error = "Please enter a description"
+        } else description.error = null
         return valid
     }
 }

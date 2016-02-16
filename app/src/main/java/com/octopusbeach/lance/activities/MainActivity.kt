@@ -4,6 +4,7 @@ import android.app.Fragment
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
@@ -49,7 +50,10 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         dList.adapter = ArrayAdapter<String>(this, R.layout.drawer_list_item, fragments)
-        dList.setOnItemClickListener { adapterView, view, position, l -> selectItem(position) }
+        dList.setOnItemClickListener { adapterView, view, position, l -> run {
+            dLayout.closeDrawer(dList)
+            Handler().postDelayed({ selectItem(position) }, 200)
+        } }
         toggle = object: ActionBarDrawerToggle(this, dLayout, toolbar,
                 R.string.drawer_open, R.string.drawer_close) {
             override fun onDrawerClosed(v: View) {
@@ -84,6 +88,9 @@ class MainActivity : AppCompatActivity() {
             fragmentManager.beginTransaction().replace(R.id.content_frame, frag).commit()
             // update the title.
             title = fragments[position]
+
+
+
             dLayout.closeDrawer(dList)
         }
     }
