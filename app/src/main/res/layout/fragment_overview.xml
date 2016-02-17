@@ -1,0 +1,33 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.octopusbeach.lance.fragments.OverviewFragment">
+
+    <android.support.v7.widget.CardView
+        android:paddingBottom="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:padding="8dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+            android:textSize="26sp"
+            android:textColor="@color/darkGrey"
+            android:text="Total hours this week: 35"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.octopusbeach.lance.views.HourChart
+            android:id="@+id/weekly_hours_chart"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

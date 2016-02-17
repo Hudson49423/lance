@@ -8,6 +8,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
 import com.firebase.client.AuthData
@@ -54,6 +55,18 @@ class CreateProjectActivity :AppCompatActivity(), DatePickerDialog.OnDateSetList
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> {
+                setResult(RESULT_CANCELED)
+                finish()
+                return true
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
     private fun createDialog(tag:String) {
         val now:Calendar = Calendar.getInstance()
         val dpd:DatePickerDialog = DatePickerDialog.newInstance(this,
@@ -95,10 +108,6 @@ class CreateProjectActivity :AppCompatActivity(), DatePickerDialog.OnDateSetList
             startActivity(intent)
             finish()
         }
-        // User is logged in, have access to uid.
-        // returning null...
-        //val email:String = authData?.providerData?.get("email") as String
-
         val project:Project = Project(title.getString(), description.getString())
         if (startBtn.text.toString().contains("-")) {
             project.start = startBtn.text.toString()
@@ -120,11 +129,9 @@ class CreateProjectActivity :AppCompatActivity(), DatePickerDialog.OnDateSetList
         } catch(e:NumberFormatException) {
             project.wage = 0.0
         }
-
         // Push the new project to firebase.
         val userRef = rootRef.child(PROJECT_CHILD).child(authData?.uid)
         userRef.push().setValue(project)
-
         // Go back to projects activity.
         dialog.dismiss()
         setResult(RESULT_OK)

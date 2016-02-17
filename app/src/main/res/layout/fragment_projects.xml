@@ -5,10 +5,12 @@
     tools:context="com.octopusbeach.lance.fragments.ProjectFragment">
 
     <android.support.v7.widget.RecyclerView
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
         android:id="@+id/project_list"
         android:divider="@drawable/abc_list_divider_mtrl_alpha"
         android:dividerHeight="1dp"
-        android:paddingBottom="72dp"
+        android:paddingBottom="78dp"
         android:clipToPadding="false"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

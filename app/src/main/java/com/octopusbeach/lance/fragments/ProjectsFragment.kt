@@ -6,27 +6,18 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.firebase.client.*
+import com.firebase.client.AuthData
+import com.firebase.client.Firebase
 import com.octopusbeach.lance.BaseApplication
 import com.octopusbeach.lance.R
 import com.octopusbeach.lance.activities.CreateProjectActivity
 import com.octopusbeach.lance.adapters.ProjectsAdapter
-import com.octopusbeach.successtrack.model.Project
 
 /**
  * Created by hudson on 2/11/16.
- */
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ProjectFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ProjectFragment#newInstance} factory method to
- * create an instance of this fragment.
  */
 class ProjectFragment : Fragment() {
     companion object {
@@ -35,13 +26,8 @@ class ProjectFragment : Fragment() {
     val CREATE_NEW_PROJECT_REQUEST = 1
     val TAG = ProjectFragment::class.java.toString()
     var recycleView:RecyclerView? = null
+    var adapter:ProjectsAdapter? = null
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment ProjectFragment.
-     */
     fun newInstance(): ProjectFragment {
         val fragment = ProjectFragment()
         val args: Bundle? = Bundle()
@@ -65,7 +51,8 @@ class ProjectFragment : Fragment() {
         recycleView = view.findViewById(R.id.project_list) as RecyclerView
         recycleView?.layoutManager = LinearLayoutManager(activity)
 
-        startProjectQuery()
+        initAdapter()
+        adapter?.startListening()
 
         return view
     }
@@ -73,17 +60,19 @@ class ProjectFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == CREATE_NEW_PROJECT_REQUEST) {
             if (resultCode == Activity.RESULT_OK){
-                startProjectQuery()
+                // since a new project was added we have to requery data.
+                adapter?.clearData()
+                adapter?.startListening()
             }
 
         }
     }
 
-    private fun startProjectQuery() {
+    private fun initAdapter() {
         val ref = Firebase(BaseApplication.FIREBASE_ROOT)
         val authData: AuthData? = ref.auth
         val projectRef = ref.child("projects/" + authData?.uid)
-        val adapter = ProjectsAdapter(projectRef)
+        adapter = ProjectsAdapter(projectRef)
         recycleView?.adapter =  adapter
     }
 

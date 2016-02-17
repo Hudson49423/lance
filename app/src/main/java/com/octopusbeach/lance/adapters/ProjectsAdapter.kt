@@ -28,8 +28,9 @@ class ProjectsAdapter : RecyclerView.Adapter<ProjectsAdapter.ProjectViewHolder> 
     val BUDGET = "budget"
     val START = "start"
     val END = "end"
+    val START_PREFIX = "Started "
 
-    inner class ProjectViewHolder : RecyclerView.ViewHolder {
+    inner class ProjectViewHolder : RecyclerView.ViewHolder, View.OnClickListener {
         var cv: CardView? = null
         var title: TextView? = null
         var description: TextView? = null
@@ -40,7 +41,14 @@ class ProjectsAdapter : RecyclerView.Adapter<ProjectsAdapter.ProjectViewHolder> 
             title = itemView?.findViewById(R.id.title) as TextView?
             description = itemView?.findViewById(R.id.description) as TextView?
             started = itemView?.findViewById(R.id.start) as TextView?
+            itemView?.setOnClickListener(this)
         }
+
+        override fun onClick(view: View?) {
+            val key = keys[adapterPosition]
+            // start up our ProjectActivity
+        }
+
     }
 
     val keys = ArrayList<String>()
@@ -51,48 +59,37 @@ class ProjectsAdapter : RecyclerView.Adapter<ProjectsAdapter.ProjectViewHolder> 
     constructor(projectRef: Firebase?) {
         // important to remember that all of this is happening on a thread.
         ref = projectRef
-        listener = projectRef?.addChildEventListener(object : ChildEventListener {
+        listener = object : ChildEventListener {
             override fun onChildAdded(snapshot: DataSnapshot?, previousChildName: String?) {
-                val title: String = snapshot?.child(TITLE)?.value as String
-                val description: String = snapshot?.child(DESCRIPTION)?.value as String
-                val start: String = snapshot?.child(START)?.value as String
-                val end: String = snapshot?.child(END)?.value as String
-                val wage: Double = snapshot?.child(WAGE)?.value as Double
-                val budget: Double = snapshot?.child(BUDGET)?.value as Double
-                val project = Project(title, description, start, end, wage, budget)
-
                 val key = snapshot?.key ?: "-1"
-                if (previousChildName == null) {
-                    projects.add(0, project)
-                    keys.add(0, key)
-                } else {
-                    // Note that this reverses the order of the projects.
-                    val index = keys.indexOf(previousChildName)
-                    keys.add(index, key)
-                    projects.add(index, project)
-                }
-                notifyDataSetChanged()
+                var index = 0
+                if (previousChildName != null) index = keys.indexOf(previousChildName)
+                keys.add(index, key)
+                projects.add(index, getProjectForSnapShot(snapshot))
+                notifyItemInserted(index)
             }
 
             override fun onChildRemoved(snapshot: DataSnapshot?) {
                 val index: Int = keys.indexOf(snapshot?.key)
                 keys.removeAt(index)
                 projects.removeAt(index)
-                notifyDataSetChanged()
+                notifyItemRemoved(index)
+            }
+
+            override fun onChildChanged(snapshot: DataSnapshot?, s: String?) {
+                val index = keys.indexOf(snapshot?.key)
+                projects[index] = getProjectForSnapShot(snapshot)
+                notifyItemChanged(index)
             }
 
             override fun onCancelled(p0: FirebaseError?) {
                 Log.e(TAG, "On cancelled called.")
             }
 
-            override fun onChildChanged(p0: DataSnapshot?, p1: String?) {
-                Log.e(TAG, "On child changed called.")
-            }
-
             override fun onChildMoved(p0: DataSnapshot?, p1: String?) {
                 Log.e(TAG, "On childed moved called.")
             }
-        })
+        }
     }
 
     override fun getItemCount() = projects.size
@@ -111,12 +108,29 @@ class ProjectsAdapter : RecyclerView.Adapter<ProjectsAdapter.ProjectViewHolder> 
         holder?.started?.text = project.start
     }
 
+    fun startListening() {
+        ref?.addChildEventListener(listener)
+    }
+
     fun stopListening() {
         Log.d(TAG, "stopping")
         ref?.removeEventListener(listener)
-        // remove the data
+    }
+
+    fun clearData() {
         projects.clear()
         keys.clear()
+        notifyDataSetChanged()
+    }
+
+    fun getProjectForSnapShot(snapshot:DataSnapshot?): Project {
+        val title: String = snapshot?.child(TITLE)?.value as String
+        val description: String = snapshot?.child(DESCRIPTION)?.value as String
+        val start: String = START_PREFIX + snapshot?.child(START)?.value as String
+        val end: String = snapshot?.child(END)?.value as String
+        val wage: Double = snapshot?.child(WAGE)?.value as Double
+        val budget: Double = snapshot?.child(BUDGET)?.value as Double
+        return Project(title, description, start, end, wage, budget)
     }
 
 }

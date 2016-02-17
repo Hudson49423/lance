@@ -10,7 +10,6 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.Log
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ArrayAdapter
@@ -19,6 +18,7 @@ import com.firebase.client.AuthData
 import com.firebase.client.Firebase
 import com.octopusbeach.lance.BaseApplication
 import com.octopusbeach.lance.R
+import com.octopusbeach.lance.fragments.OverviewFragment
 import com.octopusbeach.lance.fragments.ProjectFragment
 
 /**
@@ -69,6 +69,7 @@ class MainActivity : AppCompatActivity() {
         dLayout.setDrawerListener(toggle)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
+        selectItem(OverviewFragment.ID)
     }
 
     private fun selectItem(position:Int) {
@@ -82,16 +83,15 @@ class MainActivity : AppCompatActivity() {
                 ProjectFragment.ID -> {
                     frag = ProjectFragment()
                 }
+                OverviewFragment.ID -> {
+                    frag = OverviewFragment()
+                }
             }
             if (frag == null) return
             // switch to new fragment.
             fragmentManager.beginTransaction().replace(R.id.content_frame, frag).commit()
             // update the title.
             title = fragments[position]
-
-
-
-            dLayout.closeDrawer(dList)
         }
     }
 

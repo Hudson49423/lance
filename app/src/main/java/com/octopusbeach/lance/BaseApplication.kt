@@ -9,7 +9,7 @@ import com.firebase.client.Firebase
 class BaseApplication : Application() {
 
     companion object {
-        val FIREBASE_ROOT = "https://success-track.firebaseio.com"
+        val FIREBASE_ROOT = "https://lance.firebaseio.com"
     }
     override fun onCreate() {
         super.onCreate()
