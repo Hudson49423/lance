@@ -49,6 +49,7 @@ class LoginActivity: AppCompatActivity() {
                 R.style.AppTheme_Dark_Dialog)
 
         dialog.isIndeterminate = true
+        dialog.setCancelable(false)
         dialog.setMessage("Logging in...")
         dialog.show()
 

@@ -8,8 +8,6 @@
         android:paddingLeft="6dp"
         android:paddingRight="6dp"
         android:id="@+id/project_list"
-        android:divider="@drawable/abc_list_divider_mtrl_alpha"
-        android:dividerHeight="1dp"
         android:paddingBottom="78dp"
         android:clipToPadding="false"
         android:layout_width="match_parent"

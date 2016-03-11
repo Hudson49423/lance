@@ -6,6 +6,7 @@ import com.github.mikephil.charting.charts.HorizontalBarChart
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
+import com.octopusbeach.lance.R
 
 /**
  * Created by hudson on 2/17/16.
@@ -36,9 +37,10 @@ class HourChart: HorizontalBarChart {
         setDescription("")
     }
 
-    fun setHours(value:Float) {
+    fun setHours(value:Float, color:Int) {
         val entry = listOf(BarEntry(value, 0))
         val set = BarDataSet(entry, "")
+        set.color = color
         set.setDrawValues(false)
         val data = BarData(labels, set)
         this.data = data

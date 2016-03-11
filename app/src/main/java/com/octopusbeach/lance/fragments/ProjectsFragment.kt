@@ -14,6 +14,7 @@ import com.firebase.client.Firebase
 import com.octopusbeach.lance.BaseApplication
 import com.octopusbeach.lance.R
 import com.octopusbeach.lance.activities.CreateProjectActivity
+import com.octopusbeach.lance.activities.MainActivity
 import com.octopusbeach.lance.adapters.ProjectsAdapter
 
 /**
@@ -37,8 +38,7 @@ class ProjectFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
-        val adapter: ProjectsAdapter = recycleView?.adapter as ProjectsAdapter
-        adapter.stopListening()
+        if (recycleView?.adapter != null) (recycleView?.adapter as ProjectsAdapter).stopListening()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -69,9 +69,13 @@ class ProjectFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        val ref = Firebase(BaseApplication.FIREBASE_ROOT)
+        val ref = (activity as MainActivity).getRootRef()
         val authData: AuthData? = ref.auth
-        val projectRef = ref.child("projects/" + authData?.uid)
+        if (authData == null) {
+            (activity as MainActivity).logout()
+            return
+        }
+        val projectRef = ref.child("projects/" + authData.uid)
         adapter = ProjectsAdapter(projectRef)
         recycleView?.adapter =  adapter
     }

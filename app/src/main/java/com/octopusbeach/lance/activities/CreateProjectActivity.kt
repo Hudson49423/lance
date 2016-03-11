@@ -94,6 +94,7 @@ class CreateProjectActivity :AppCompatActivity(), DatePickerDialog.OnDateSetList
 
         dialog.isIndeterminate = true
         dialog.setMessage("Creating Project..")
+        dialog.setCancelable(false)
         dialog.show()
 
         val rootRef:Firebase = Firebase(BaseApplication.FIREBASE_ROOT)

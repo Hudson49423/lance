@@ -1,13 +1,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:padding="8dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
     android:layout_width="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
     android:layout_height="match_parent"
     tools:context="com.octopusbeach.lance.fragments.OverviewFragment">
 
     <android.support.v7.widget.CardView
-        android:paddingBottom="8dp"
+        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
@@ -16,8 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         <TextView
+            android:textColor="@android:color/black"
             android:textSize="26sp"
-            android:textColor="@color/darkGrey"
             android:text="Total hours this week: 35"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -29,5 +32,14 @@
         </LinearLayout>
 
     </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.RecyclerView
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:id="@+id/project_list"
+        android:divider="@android:drawable/divider_horizontal_dark"
+        android:dividerHeight="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

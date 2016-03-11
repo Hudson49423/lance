@@ -40,13 +40,6 @@ class MainActivity : AppCompatActivity() {
         dLayout = findViewById(R.id.drawer_layout) as DrawerLayout
         toolbar = findViewById(R.id.toolbar) as Toolbar
         ref = Firebase(BaseApplication.FIREBASE_ROOT)
-        var auth: AuthData? = ref.auth
-        if (auth == null) {
-            // not logged in.
-            startActivity(Intent(this, LoginActivity::class.java))
-            Log.e("Auth data null", "Logging out now")
-        }
-
         setSupportActionBar(toolbar)
 
         dList.adapter = ArrayAdapter<String>(this, R.layout.drawer_list_item, fragments)
@@ -70,6 +63,21 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
         selectItem(OverviewFragment.ID)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (ref.auth == null) logout()
+    }
+
+    fun logout() {
+        ref.unauth()
+        startActivity(Intent(this, LoginActivity::class.java))
+        Log.e("Auth data null", "Logging out now")
+    }
+
+    fun getRootRef(): Firebase {
+        return ref
     }
 
     private fun selectItem(position:Int) {

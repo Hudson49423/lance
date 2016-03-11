@@ -2,6 +2,7 @@ package com.octopusbeach.lance
 
 import android.app.Application
 import com.firebase.client.Firebase
+import com.squareup.leakcanary.LeakCanary
 
 /**
  * Created by hudson on 2/11/16.
@@ -15,5 +16,6 @@ class BaseApplication : Application() {
         super.onCreate()
         Firebase.setAndroidContext(this)
         Firebase.getDefaultConfig().isPersistenceEnabled = true
+        LeakCanary.install(this)
     }
 }
